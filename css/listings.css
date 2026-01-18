@@ -1,0 +1,264 @@
+body {
+    font-family: arial;
+    margin: 0;
+    padding: 0;
+    border: 0
+}
+
+table {
+    font-family: arial;
+    font-size: 12px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #dcdedf;
+    padding: 3px;
+    text-align: left;
+}
+
+thead th {
+    vertical-align: top;
+    border: 0;
+    border-left: 1px solid #dcdedf;
+}
+
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #fff7f7;
+}
+
+.datanav {
+    filter: grayscale(100%);
+    text-decoration: none;
+    font-size: 16px;
+    transform: translateY(0);
+    box-shadow: none;
+    border: 0;
+    border-radius: 3px;
+    padding:2px;
+    padding-left:0;
+    padding-right:0;
+}
+
+.datanav:hover {
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.header-main{
+    background-color: #f4ebeb;
+}
+
+.navigate_bar {
+    text-align: center;
+    padding: 2px;
+    font-size: 12px;
+    background-color: #f4ebeb;
+    /* background: linear-gradient(90deg, #8d8d8d, #313131); */
+}
+
+
+.pointer {
+    cursor: pointer;
+    width: fit-content;
+    background-color: #fff7f7;
+}
+
+.desc {
+    background-color: #fff7f7;
+    font-size: 11px;
+
+}
+
+
+.highlight {
+    background-color: #f4ebeb;
+    color: black;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.in_work {
+    background-color: #ffffc1;
+}
+
+.changed {
+    background-color: #d4f4d4;
+}
+
+/* .shorten1 {
+    max-width: 300px;
+    min-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shorten2 {
+    max-width: 200px;
+    min-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+
+button {
+    display: inline-flex;
+    /* Oder inline-block wenn flex nicht passt */
+    align-items: center;
+    /* Zentriert Inhalt vertikal in flexbox*/
+    padding: 2px 3px;
+    /* Passe padding nach Bedarf an */
+    line-height: 1;
+    /* Wichtig für die vertikale Zentrierung */
+    vertical-align: middle;
+    /* Für den Fall, dass Flexbox nicht geht */
+}
+
+/* .button_neu:hover {
+    background-color: lightpink;
+} */
+
+/* .iframeContainer {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border: 2px solid gray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.iframeContainer_iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+} */
+
+/* .search_bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 3px;
+    font-size: 11px;
+    padding: 2px;
+    background-color: #f0e8e8;
+}
+
+.search_bar select,
+.search_bar input[type="text"] {
+    flex: 1 1 10px;
+    min-width: 10px;
+    max-width: 250px;
+    box-sizing: border-box;
+    line-height: normal;
+    height: 20px;
+} */
+
+@media (max-width: 2400px) {
+    td {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.hidden{display:none}
+
+.small_button {
+    background-color: gray;
+    border: none;
+    color: white;
+    padding-left: 13px;
+    padding-right: 13px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 0;
+    margin-left: 2px;
+    cursor: pointer;
+    border: solid white 1px;
+}
+
+.small_button:hover {
+    border: solid dimgray 1px;
+}
+
+.filter_label {
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.filter_search {
+    background-color: transparent;
+    border: solid silver 1px;
+    color: dimgray;
+    line-height: 10px;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    display: none;
+    margin-bottom: 3px;
+}
+
+.silver {
+    background-color: silver
+}
+
+.lightblue {
+    background-color: lightblue
+}
+
+.red {
+    background-color: red
+}
+
+.bluegreen {
+    background-color: #7BCCB5
+}
+
+.darkblue {
+    background-color: #015f96
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px
+}
+
+::-webkit-scrollbar-track {
+    background: 0 0
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ecebeb
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: #ecebeb
+}
+
+::-webkit-scrollbar-corner {
+    background: 0 0
+}
+
+

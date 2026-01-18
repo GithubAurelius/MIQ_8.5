@@ -1,0 +1,97 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+form {
+    width: 100%;
+    max-width: 350px;
+    /* Leicht verschmälert */
+    margin: 0 auto;
+    padding: 30px;
+    /* Reduzierter Innenabstand */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+    /* Abstand zur Trennlinie */
+    font-weight: 600;
+    padding-bottom: 15px;
+    /* Schicke visuelle Trennlinie */
+    border-bottom: 3px solid #007bff;
+    /* Primärfarbe als Unterstrich */
+    display: inline-block;
+    /* Damit der Unterstrich nur so breit wie der Text ist */
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 4px;
+    /* Reduzierter Abstand nach dem Label */
+    font-weight: 500;
+    color: #555;
+    font-size: 0.95em;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    /* Reduzierter Abstand nach dem Feld (vor dem nächsten Label/Button) */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* --- Anmelde-Button --- */
+button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 15px;
+    margin-top: 5px;
+    /* Etwas näher an das letzte Feld herangerückt */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.05em;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 10px rgba(0, 123, 255, 0.4);
+}
+
+h2 {
+    margin-top: 0px;
+}

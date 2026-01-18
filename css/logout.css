@@ -1,0 +1,65 @@
+/* --- Globales Reset & Layout --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6; /* Heller, freundlicher Hintergrund */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Zentriert horizontal */
+            align-items: center; /* Zentriert vertikal */
+            min-height: 100vh; /* Füllt den gesamten Viewport */
+        }
+
+        /* --- Haupt-Container (Die Box) --- */
+        .message-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Moderner, weicher Schatten */
+            max-width: 450px;
+            text-align: center;
+        }
+
+        /* --- Überschriften (Text) --- */
+        h2 {
+            font-size: 2.2em;
+            color: #dc3545; /* Rot für "Abmeldung" (wie bei einer Warnung) */
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            color: #6c757d; /* Grauer Text für Anweisungen */
+            line-height: 1.6;
+        }
+
+        /* --- Der Button/Link (Startseite) --- */
+        .startseite-button {
+            /* Das <a>-Element wird wie ein Button gestylt */
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #007bff; /* Primäre Farbe: Blau */
+            color: white;
+            text-decoration: none; /* Unterstreichung entfernen */
+            border-radius: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3); /* Button-Schatten */
+        }
+
+        .startseite-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px); /* Leichter Hover-Effekt */
+        }
+        
+        /* --- Icons / Hervorhebung --- */
+        .icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 15px;
+            color: #dc3545; /* Rot */
+        }

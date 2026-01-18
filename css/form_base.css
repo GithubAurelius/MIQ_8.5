@@ -1,0 +1,972 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #fcfcfc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.main_form {
+    margin: 0;
+    padding: 0;
+}
+
+/* .custom-checkbox {
+    height: 16px; 
+    width: 16px;
+    background-color: white; 
+    border: 1px solid dimgray; 
+    display: inline-block;
+    cursor: pointer;
+} */
+
+.sim_hide {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.custom-checkbox-wrapper {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.custom-checkbox {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: white;
+    /* wird per JS geändert */
+    transition: background-color 0.2s ease;
+    margin-right: 6px;
+}
+
+.custom-checkbox-label {
+    font-size: 14px;
+    color: #222;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    /* Safari, Chrome (alt) */
+    -moz-user-select: none;
+    /* Firefox (alt) */
+    -ms-user-select: none;
+    /* IE10+ */
+    user-select: none;
+
+}
+
+.push-15 {
+    margin-bottom: 15px;
+}
+
+.td_num {
+    width: 100%;
+    margin-top: -8px;
+    border-top: silver dashed 1px;
+    padding-bottom: 4px;
+}
+
+.td_num td:first-child {
+    vertical-align: top;
+    width: 25px;
+}
+
+.table-70-30 {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 0.5px dashed silver;
+}
+
+.table-70-30 td:first-child {
+    width: 70%;
+}
+
+.table-70-30 td:last-child {
+    white-space: nowrap;
+    width: 30%;
+}
+
+.table-checkbox_1 {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    /* border-bottom: 0.5px dashed silver; */
+    margin-bottom: 3px;
+}
+
+.table-checkbox_1 td {
+    border-bottom: dashed 1px silver;
+    padding-bottom: 2px;
+
+}
+
+.table-checkbox_1 td:first-child {
+    vertical-align: top;
+    width: 24px;
+}
+
+.table-text_1 {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    /* border-bottom: 0.5px dashed silver; */
+}
+
+.table-text_1 td:first-child {
+    width: 50%;
+}
+
+form {
+    /* width: 97%; */
+    /* margin: 10px auto; */
+    font-size: 14px;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 2px;
+    align-items: flex-end; /* MD 21:10.2025 */
+}
+
+legend {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding-left: 3px;
+    margin-left: 10px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* align-items: flex-end; */
+    border-bottom: 0.5px dashed silver;
+    margin-bottom: 0;
+    vertical-align: top;
+}
+
+.row_b {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    border-bottom: 0.5px dashed silver;
+    margin-bottom: 0;
+    vertical-align: top;
+}
+
+.col_100 {
+    vertical-align: top;
+    width: 100%;
+    /* flex: 1;     */
+    line-height: 13px;
+    /* Abstand button zu div */
+    box-sizing: border-box;
+}
+
+.col_30 {
+    vertical-align: top;
+    width: 33%;
+    /* flex: 1;     */
+    line-height: 13px;
+    /* Abstand button zu div */
+    padding: 5px;
+    box-sizing: border-box;
+
+}
+
+.col_70 {
+    vertical-align: top;
+    width: 66%;
+    /* flex: 1;     */
+    line-height: 13px;
+    /* Abstand button zu div */
+    padding: 5px;
+    box-sizing: border-box;
+
+}
+
+.col_60 {
+    vertical-align: top;
+    width: 66%;
+    /* flex: 1;     */
+    line-height: 13px;
+    /* Abstand button zu div */
+    padding: 5px;
+    box-sizing: border-box;
+
+}
+
+.col {
+    vertical-align: top;
+    width: 50%;
+    line-height: 13px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.col_a {
+    flex: 0 0 70%;
+    text-align: left;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+
+.col_b {
+    flex: 0 0 30%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bottomline {
+    border-bottom: 0.5px dashed silver;
+}
+
+
+/* Mobil: untereinander */
+@media (max-width: 400px) {
+    .col {
+        width: 100%;
+    }
+
+    .col_a,
+    .col_b {
+        flex: 0 0 100%;
+        /* Beide Spalten nehmen die volle Breite ein */
+        max-width: 100%;
+        /* Stellt sicher, dass sie nicht überlaufen */
+        /* Wichtig: Wenn col_b oben padding:0 hatte, braucht es hier wieder padding */
+        padding: 5px;
+    }
+}
+
+.desc_f {
+    color: 333;
+    display: block;
+    line-height: 1.3;
+    padding-left: 2px;
+}
+
+.desc_f_inl {
+    color: 333;
+    display: inline;
+    line-height: 1.3;
+}
+
+.block {
+    /* background-color: rgb(240, 240, 240); */
+    margin-left: 0;
+    flex: 1;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1 dashed silver;
+
+}
+
+.block_1 {
+    /* background-color: rgb(238, 248, 240); */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-bottom: 0.5px dashed silver;
+    margin-bottom: 0;
+    vertical-align: top;
+}
+
+.block_2 {
+    /* background-color: rgb(238, 248, 240); */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    border-bottom: 0.5px dashed silver;
+    margin-bottom: 0;
+    vertical-align: top;
+}
+
+input[readonly],
+textarea[readonly],
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 3px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 26px;
+    color: dimgray;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    width: 100%;
+    color: #ccc;
+    padding: 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+input[type="date"] {
+    line-height: 16px;
+    padding: 2px;
+}
+
+select {
+    width: 100%;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    color: dimgray;
+    height: 26px;
+}
+
+select option {
+    width: auto;
+    font-size: 12px;
+    color: black;
+}
+
+select option:first-child {
+    width: auto;
+    font-size: 12px;
+    color: dimgray;
+}
+
+/* textarea:hover,   
+input:not([type="file"]):not([type="submit"]):hover, 
+select:hover {
+    border: 1px solid black;
+} */
+.drop-area {
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    border-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 2px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin-bottom: 0;
+}
+
+.drop-area:hover {
+    border-color: #000;
+    background-color: #fbe1e5;
+    cursor: pointer;
+}
+
+.filedict_button {
+    font-size: 11px;
+    color: #ccc;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top: 0;
+    background-color: white;
+    padding: 2px;
+    margin-top: 0;
+}
+
+.filedict_button:hover {
+    background-color: #fbe1e5;
+    border: 1px solid black;
+    border-top: 0;
+}
+
+.filedict_info_box {
+    font-size: 11px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 1px;
+    background-color: white;
+}
+
+#debug {
+    margin-top: 5px;
+    font-size: 11px;
+    border: 0px solid #000;
+    background-color: #fbe1e5;
+}
+
+.infotext {
+    /* font-size: 12px;*/
+    line-height: 20px;
+    padding: 5px;
+}
+
+.thumbnail-container {
+    margin-top: 2px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.thumbnail-container img {
+    width: 80px;
+    height: auto;
+    margin: 2px;
+    box-sizing: border-box;
+}
+
+.small_table {
+    border: solid silver 0;
+    width: 100%;
+    font-size: 11px;
+}
+
+.small_table td {
+    /*
+      white-space: nowrap;
+      overflow: hidden;  
+      text-overflow: ellipsis; 
+      max-width: 100px;  
+      */
+    border-bottom: solid silver 0.5px;
+    padding: 0;
+}
+
+.small_table th {
+    font-size: 12px;
+    background-color: #f0e8e8;
+    padding: 2px;
+    text-align: left;
+}
+
+.realylightgray {
+    background-color: #f0e8e8;
+    font-size: 12px;
+    padding: 2px;
+}
+
+.aref_button_light {
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    border: 0.5px dashed lightgray;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.aref_button_light:hover {
+    background-color: rgb(246, 246, 246);
+}
+
+.aref_button {
+    text-decoration: none;
+    background-color: lightgray;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.aref_button:hover {
+    background-color: lightpink
+}
+
+.infobox {
+    font-size: 11px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 30px 0;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.control_input {
+    background-color: transparent;
+    color: rgb(45, 45, 45);
+    border: solid silver 0.5px;
+    border-radius: 5px;
+    width: 90px;
+}
+
+
+.radio-wrapper {
+    display: inline-block;
+    position: relative;
+    padding-left: 22px;
+    margin-right: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radio-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.radio-custom {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+
+.radio-wrapper input:checked ~ .radio-custom {
+    background-color: white;
+    border-color: dimgray;
+}
+
+.radio-custom::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: solid dimgray;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.radio-wrapper input:checked ~ .radio-custom::after {
+    display: block;
+    /* Anzeigen, wenn der Radiobutton ausgewählt ist */
+}
+
+
+/* CEDUR */
+
+.year_select {
+    max-width: 200px;
+
+}
+
+.cedur_ses {
+    visibility: hidden;
+    height: 5px;
+}
+
+.hintlabel {
+    width: 99%;
+    padding: 3px 3px;
+    /* border-radius: 3px; */
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateY(10px);
+    visibility: hidden;
+    border-radius: 6px;
+
+}
+
+.hintlabel:not(:empty) {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    border-radius: 6px;
+}
+
+/* Stil für eine Erfolgsmeldung (Grün/Türkis) */
+.hintlabel.success {
+    background-color: #e6ffee;
+    color: #007a5e;
+    border: 1px solid #99e6cb;
+    box-shadow: 0 4px 12px rgba(0, 122, 94, 0.15);
+    /* Grünerer Schatten */
+}
+
+/* Stil für eine Warnmeldung (Gold/Gelb) */
+.hintlabel.warning {
+    background-color: lightpink;
+    color: dimgray;
+    border: 1px solid white;
+    box-shadow: 0 4px 12px rgba(179, 0, 0, 0.15);
+}
+
+/* Stil für eine Fehlermeldung (Koralle/Rot) */
+.hintlabel.error {
+    background-color: #ffe6e6;
+    color: #b30000;
+    border: 1px solid #ff9999;
+    box-shadow: 0 4px 12px rgba(179, 0, 0, 0.15);
+}
+
+/* Stil für eine neutrale Info-Meldung (Blau/Grau) */
+.hintlabel.info {
+    background-color: #e6f7ff;
+    color: #006699;
+    border: 1px solid #99ccff;
+    box-shadow: 0 4px 12px rgba(0, 102, 153, 0.15);
+}
+
+/* Optional: Stile für den Fokus oder Hover (wenn das Label anklickbar wäre) */
+.hintlabel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.medic {
+    background-color: rgba(254, 255, 168, 0.675);
+}
+
+.onetime {
+    /* background-color: rgba(232, 250, 231, 0.675); */
+    /* display: none !important; */
+}
+
+.cosen_select {
+    font-size: 12px;
+    padding: 2px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 80%;
+    max-width: 600px;
+    margin: 10px auto;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Allgemeine Labels für den Schieberegler */
+.slider-label {
+    white-space: nowrap;
+    font-size: 0.9em;
+    color: #555;
+    min-width: 100px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+
+.slider-label.end-label {
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+
+.wertSchieberegler {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to right, #4CAF50, #FFC107, #F44336);
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity .2s;
+
+}
+
+/* Styling des Schieberegler-Daumens (der "Knopf" den man zieht) */
+.wertSchieberegler::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    /* Breite des Daumens */
+    height: 20px;
+    background: #000000;
+    cursor: grab;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    border: 2px solid white;
+}
+
+.wertSchieberegler::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #000000;
+    cursor: grab;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    border: 2px solid white;
+}
+
+wertSchieberegler:hover {
+    opacity: 1;
+}
+
+
+@media (max-width: 600px) {
+    .slider-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .slider-label {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        text-align: center;
+
+    }
+}
+
+/* Versteckt die Box standardmäßig */
+
+#messageBoxWrapper.hidden {
+    display: none !important;
+    /* Verwenden Sie !important, um sicherzugehen */
+}
+
+/* Oder, wenn die Box ein Flex-Container ist: */
+#messageBoxWrapper.hidden {
+    display: none;
+}
+
+/* Der Wrapper, der über die gesamte Seite geht */
+#messageBoxWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Halbtransparenter Hintergrund */
+    display: flex;
+    /* Für die Zentrierung */
+    justify-content: center;
+    /* Horizontale Zentrierung */
+    align-items: center;
+    /* Vertikale Zentrierung */
+    z-index: 1000;
+    /* Stellt sicher, dass die Box über allen anderen Elementen liegt */
+}
+
+/* Die eigentliche Message-Box */
+.message-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    /* Wichtig für die Positionierung des Close-Buttons */
+}
+
+/* Styling für den Schließen-Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Hover-Effekt für den Schließen-Button */
+.close-button:hover {
+    color: #333;
+}
+
+/* Styling für den Inhalt */
+.message-box h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.message-box p {
+    color: #666;
+    line-height: 1.6;
+}
+
+
+.lock-layer-hidden {
+    display: none;
+}
+
+.lock-layer-activ {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    cursor: not-allowed;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    0% {
+        background-color: red;
+        color: white;
+    }
+
+    50% {
+        background-color: transparent;
+        color: red;
+    }
+
+    100% {
+        background-color: red;
+        color: white;
+    }
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    background-color: #d6d6d6;
+    border-bottom: 1px solid #ccc;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    flex-direction: column;
+    /* <== wichtig */
+    padding: 5px 10px;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    box-sizing: border-box;
+    gap: 4px;
+    /* Abstand zwischen den Zeilen */
+}
+
+/* Erste Zeile */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Sub-Header Zeile */
+#sub_header {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    color: white;
+    z-index: 999;
+    height: 20px;
+    transition: top 0.3s;
+    text-align: center;
+    font-size: 11px;
+    color: #333;
+    border-radius: 6px;
+}
+
+#fixed-header button {
+    margin-right: 6px;
+    padding: 4px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+#fixed-header button:hover {
+    background-color: lightgreen;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.header-right {
+    gap: 6px;
+}
+
+#main_tab {
+    width: 99%;
+    margin-top: 50px;
+}
+
+
+.save-button-style {
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 2px 4px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.save-button-style:hover {
+    background-color: dimgray;
+    color: white;
+    border-color: dimgray;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.save-button-style:active {
+    background-color: dimgray;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
