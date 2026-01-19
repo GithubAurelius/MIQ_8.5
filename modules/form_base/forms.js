@@ -954,10 +954,12 @@ function background_field_action(verbose_a = [0, 0]) {
             try {
                 filteredObject = c_info();
                 fetchDataAndUpdateForm(fcid, fg, 100, JSON.stringify(filteredObject));
+                // console.log(filteredObject);
             } catch (err) {
                 console.error(`❌ Fehler in Funktionsaufruf errorwriting`, err);
             }
             errors = error_a_sum(error_a);
+            // console.log("E:" + errors);
             const objectLength = Object.keys(filteredObject).length;
             if (verbose_a[0]) 
                 if (objectLength > 0) console.log(filteredObject);
@@ -1127,8 +1129,22 @@ function activate_multi_selects() {
     });
 }
 
+// Hilfsobjekt, um den echten Wert zu speichern
+window._errorState = { val: 0 };
+Object.defineProperty(window, 'errors', {
+    get() { return this._errorState.val; },
+    set(newVal) {
+        if (this._errorState.val !== newVal) {
+            this._errorState.val = newVal;     
+            // Wir lösen ein globales Event aus
+            const event = new CustomEvent('errorsChanged', { detail: newVal });
+            window.dispatchEvent(event);
+        }
+    },
+    configurable: true
+});
+// var errors = 0;
 
-var errors = 0;
 var error_a = {};
 
 document.addEventListener('DOMContentLoaded', (event) => {
