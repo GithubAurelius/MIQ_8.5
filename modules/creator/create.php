@@ -562,7 +562,6 @@ if (isset($_SESSION['css'])) $css = $_SESSION['css'];
                 case "date_1":
                     $tmp_str .= "\n\t\t\t\t\t<div class='col'><div class='desc_f'>$desc_0</div></div><div class='col' style='display: flex; flex-wrap: nowrap;white-space: nowrap;'><input $required type='date' id='FF_$_a[0]' name='FF_$_a[0]' value=\"<?php echo htmlspecialchars($" . "form_data_a[$_a[0]] ?? ''); ?>\"></div>";
                     break;
-
                 case "date_2":
                     $tmp_str .= "\n\t\t\t\t\t<div class='col'><div class='desc_f'>$desc_0</div><input $required type='date' id='FF_$_a[0]' name='FF_$_a[0]' value=\"<?php echo htmlspecialchars($" . "form_data_a[$_a[0]] ?? ''); ?>\"></div>";
                     break;

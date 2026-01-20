@@ -16,7 +16,8 @@ a { color: #fff; text-decoration: none; display: block; padding: 7px 7px; transi
 @media (max-width: 768px) {  
     .main-nav > li:hover 
     .submenu { display: block; transform: rotateX(0deg); opacity: 1;box-shadow: 0 5px 5px #444; } 
-    .main-nav { flex-direction: column; align-items: center; }  .main-nav > li { width: 100%; margin-bottom: 10px; display: none; / } 
+    .main-nav { flex-direction: column; align-items: center; }  
+    .main-nav > li { width: 100%; margin-bottom: 10px; display: none; / } 
     .main-nav.show > li { display: block; } 
     .menu-toggle { display: block; background-color: #555; padding: 10px 10px; cursor: pointer; } 
     .submenu { position: static; width: 100%; transform: rotateX(0deg); opacity: 1; padding-left: 20px; background-color: #444;} 

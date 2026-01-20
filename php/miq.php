@@ -91,10 +91,11 @@ function get_query_data($db, $table, $query_add = '')
     return $res;
 }
 
-function get_fcid_a($temp_a){
+function get_fcid_a($temp_a)
+{
     $fcid_a = [];
-    foreach ($temp_a as $key => $fid_a) 
-        $fcid_a[$fid_a['fcid']][$fid_a['fid']] = $fid_a['fcont']; 
+    foreach ($temp_a as $key => $fid_a)
+        $fcid_a[$fid_a['fcid']][$fid_a['fid']] = $fid_a['fcont'];
     return $fcid_a;
 }
 
@@ -117,29 +118,41 @@ function show_a($a)
     return '<pre>' . var_export($a, true) . '</pre>';
 }
 
-function ins_or_rep_form($ts, $db, $fg, $fcid, $muid, $fid, $fcont) // AUSNAHME FÜR EMAIL FELD BEACHTEN  $fid = 10003040
+function ins_or_rep_form($ts, $db, $fg, $fcid, $muid, $fid, $fcont)
 {
     global $db_audit, $old_form_data_a;
+    // Timestamp aktualisieren
     $ts = date("Y-m-d H:i:s");
-    if (!$muid) $muid = $_SESSION['uid'];
-    if (!$muid) $muid = $_SESSION['m_uid'];
-    $usergroup = $_SESSION['user_group'] ?? 0;
-    if (!$muid) $muid = $_SESSION['uid'];
-   
-    try {
-        if (trim($fcont ?? '') == '') $fcont = NULL;
+    
+    // Benutzer-ID sicher ermitteln
+    if (!$muid) $muid = $_SESSION['uid'] ?? null;
+    if (!$muid) $muid = $_SESSION['m_uid'] ?? null;
 
-        // Direktes Insert oder Update in einem Schritt
-        $sql = "
-                INSERT INTO forms_$fg (fcid, muid, fid, fcont, usergroup, mts)
-                VALUES (:fcid, :muid, :fid, :fcont, :usergroup, :mts)
-                ON DUPLICATE KEY UPDATE
-                    muid = VALUES(muid),
-                    fcont = VALUES(fcont),
-                    usergroup = VALUES(usergroup),
-                    mts = VALUES(mts)
-            ";
-        $stmt = $db->prepare($sql);
+    $usergroup = $_SESSION['user_group'] ?? 0;
+
+    // Email-Feld NICHT speichern
+    if ($fid == 10003040) {
+        return 1;
+    }
+    
+    // Leere Inhalte als NULL speichern
+    $fcont = (trim($fcont ?? '') === '') ? null : $fcont;
+
+    try {
+
+        /* ----------------------------------------------------------
+         * INSERT OR UPDATE in forms_$fg
+         * ---------------------------------------------------------- */
+        $sql_main = "
+            INSERT INTO forms_$fg (fcid, muid, fid, fcont, usergroup, mts)
+            VALUES (:fcid, :muid, :fid, :fcont, :usergroup, :mts)
+            ON DUPLICATE KEY UPDATE
+                muid = VALUES(muid),
+                fcont = VALUES(fcont),
+                usergroup = VALUES(usergroup),
+                mts = VALUES(mts)
+        ";
+        $stmt = $db->prepare($sql_main);
         $stmt->execute([
             ':fcid'      => $fcid,
             ':muid'      => $muid,
@@ -148,30 +161,32 @@ function ins_or_rep_form($ts, $db, $fg, $fcid, $muid, $fid, $fcont) // AUSNAHME 
             ':usergroup' => $usergroup,
             ':mts'       => $ts
         ]);
-        if ($fid != 10003040) $res = $stmt->execute(); // EMAIL-FIELD not saved
-
-        $old_fcont = $old_form_data_a[$fid] ?? NULL;
-        if ($fcont !== $old_fcont) {
-            if ($fid != 100) {
-                $sql = "INSERT INTO forms_audit (fg,fcid,muid,fid,fcont,usergroup,mts)
-                            VALUES (:fg,:fcid,:muid,:fid,:fcont,:usergroup,:mts)";
-                $stmt = $db_audit->prepare($sql);
-                $stmt->execute([
-                    ':fg'        => $fg,
-                    ':fcid'      => $fcid,
-                    ':muid'      => $muid,
-                    ':fid'       => $fid,
-                    ':fcont'     => $fcont,
-                    ':usergroup' => $usergroup,
-                    ':mts'       => $ts
-                ]);
-            }
+        
+        /* ----------------------------------------------------------
+         * Audit-Log nur schreiben wenn Wert geändert wurde
+         * ---------------------------------------------------------- */
+        $old_fcont = $old_form_data_a[$fid] ?? null;
+        if ($fcont !== $old_fcont && $fid != 100 && $fid != 101 && $fid != 102) {
+            $sql_audit = "
+                INSERT INTO forms_audit (fg, fcid, muid, fid, fcont, usergroup, mts)
+                VALUES (:fg, :fcid, :muid, :fid, :fcont, :usergroup, :mts)
+            ";
+            $stmt_a = $db_audit->prepare($sql_audit);
+            $stmt_a->execute([
+                ':fg'        => $fg,
+                ':fcid'      => $fcid,
+                ':muid'      => $muid,
+                ':fid'       => $fid,
+                ':fcont'     => $fcont,
+                ':usergroup' => $usergroup,
+                ':mts'       => $ts
+            ]);
         }
         return 1;
     } catch (Exception $e) {
-        return 0; // $e->getMessage()
+        // FEHLERMELDUNG zurückgeben (nicht 0)
+        return "ERROR: " . $e->getMessage();
     }
 }
 
 if (!isset($_SESSION['user_group'])) $_SESSION['user_group'] = 0;
-

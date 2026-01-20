@@ -1,5 +1,3 @@
-
-
 function get_open_winboxes() 
 {   // zeigt alle offenen winboxes
     const winboxElements = document.querySelectorAll(".wb-body");

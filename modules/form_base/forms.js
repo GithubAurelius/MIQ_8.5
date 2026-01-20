@@ -1129,7 +1129,7 @@ function activate_multi_selects() {
     });
 }
 
-// Hilfsobjekt, um den echten Wert zu speichern
+// Hilfsobjekt, um den echten Wert zu speichern, Trackinfg der Variable auf Veränderung möglich
 window._errorState = { val: 0 };
 Object.defineProperty(window, 'errors', {
     get() { return this._errorState.val; },

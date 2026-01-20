@@ -8,11 +8,11 @@ function navigate_bar($data_def_a, $sort_fid, $sort_dir, $quick_search_str, $sel
     $ret_str = "<div style='display: grid;grid-template-columns: auto 1fr;'><div>";
     if (isset($data_def_a['work_mode_a']['A'])) { // forward_form(list_type, key_n, key_v, form_name, num, param_a = {})
         // $click_str = "window.parent.forward_form('form', 'fcid', -1, '" . $data_def_a['form_name'] . "',1)";
-        $doc_url = $_SESSION['PROJECT_PATH']."forms/".$data_def_a['form_name'].".php?fg=".$data_def_a['fg']."&fcid=-1";
+        $doc_url = $_SESSION['PROJECT_PATH'] . "forms/" . $data_def_a['form_name'] . ".php?fg=" . $data_def_a['fg'] . "&fcid=-1";
         $doc_name = $data_def_a['form_name'];
         // TODO: add as event listener and integrate param_str
-        $json_data = '{"num": "555", "title": "'.$doc_name.'", "url": "'.$doc_url.'"}';
-        $js_call = "window.top.winbox_url('".$json_data."')";
+        $json_data = '{"num": "555", "title": "' . $doc_name . '", "url": "' . $doc_url . '"}';
+        $js_call = "window.top.winbox_url('" . $json_data . "')";
         $click_str = htmlspecialchars($js_call, ENT_QUOTES, 'UTF-8');
         $ret_str .= "<a class='datanav' onclick=\"" . $click_str . "\">➕</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     }
@@ -311,8 +311,7 @@ foreach ($work_mode_a as $key => $val) {
 $data_add = isset($data_def_a['work_mode_a']['A']) ? 1 : 0;
 $data_filter = isset($data_def_a['work_mode_a']['F']) ? 1 : 0;
 
-
-
+$plan_fly = isset($data_def_a['work_mode_a']['P']) ? 1 : 0;
 
 // $param_str = $_REQUEST['param_str'] ?? "";
 // if ($param_str) {
@@ -699,9 +698,81 @@ $start = microtime(true);
             });
         }
     }
+
+    function eL_edit_table(miq_php_path, edit_table, subtable = 1) {
+        document.querySelector('#cases').addEventListener('dblclick', function(e) {
+            const td = e.target.closest('td');
+            if (!td || td.tagName === 'TH' || td.closest('thead')) return;
+
+            const columnIndex = td.cellIndex;
+            const headerRow = this.querySelector('thead').rows[subtable];
+            const headerCell = headerRow ? headerRow.cells[columnIndex] : null;
+            const fid = headerCell ? headerCell.id.replace('F_', '') : '';
+            // Abbruch bei gewissen Spalten
+            const ignoreIds = ['', 'fcid', 'tools', '90', 'F_fcid'];
+            if (ignoreIds.includes(fid)) return;
+            // Verhindert das Leeren, wenn bereits editiert wird
+            if (td.querySelector('textarea')) return;
+            const fcid = td.parentElement.id.replace('FCID_', '');
+            const originalContent = td.innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = originalContent;
+            textarea.style.width = "100%";
+            textarea.style.height = td.offsetHeight + "px";
+            console.log("FID:", fid);
+            td.innerHTML = '';
+            td.appendChild(textarea);
+            textarea.focus();
+
+            textarea.addEventListener('blur', function() {
+                const newValue = this.value;
+                td.innerText = newValue;
+
+                // Nur senden, wenn sich wirklich etwas geändert hat
+                if (newValue !== originalContent) {
+                    const formData = new FormData();
+                    formData.append('table', edit_table); // Oder dynamisch ermitteln
+                    formData.append('fcid', fcid);
+                    formData.append('fid', fid);
+                    formData.append('newValue', newValue);
+
+                    fetch(miq_php_path + 'fetch_update_list_content.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                td.style.backgroundColor = 'yellow'; // Erfolg markieren
+                                // console.log("DB Update erfolgreich für FCID:", fcid);
+                            } else {
+                                alert("Fehler beim Speichern: " + data.message);
+                                td.style.backgroundColor = 'red';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Fehler im Table-Edit:', error);
+                            td.style.backgroundColor = 'red';
+                        });
+                }
+            });
+
+            textarea.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.blur();
+                }
+            });
+        });
+    }
+
     // globals
 
     const project_path = <?php echo json_encode(PROJECT_PATH) ?>;
+    const miq_php_path = <?php echo json_encode(MIQ_PATH_PHP) ?>;
+    const fg = <?php echo json_encode($data_def_a['fg'] ?? "") ?>;
+    const allow_table_edit = <?php echo json_encode(isset($_SESSION['rl']['tableedit'])) ?>;
+
     const num = <?php echo json_encode($data_def_a['num'] ?? 888888) ?>;
     const w = get_wrapper('wrap_1');
     const quick_search = w.querySelector("#" + 'quick_search'); // url_param
@@ -724,6 +795,7 @@ $start = microtime(true);
     const delete_data_num = <?php echo json_encode($data_delete_num) ?>;
     const data_add = <?php echo json_encode($data_add) ?>;
     const data_filter = <?php echo json_encode($data_filter) ?>;
+    const plan_fly = <?php echo json_encode($plan_fly ?? "") ?>;
 
     const data_def_a = JSON.parse(atob(data_def_str));
 
@@ -791,6 +863,70 @@ $start = microtime(true);
             delete_data(w, 'del_patient', fcid, delete_data_num);
         });
 
+    if (plan_fly) {
+        eL_add_button(w, '✈️', 'P', 'white', (fcid) => {
+            const url = `<?php echo MIQ_PATH_PHP ?>fetch_geodata_get_fcid.php?fcid=${fcid}`;
+            fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP-Fehler: ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    // Prüfen, ob eine Fehlermeldung vom Server vorliegt
+                    if (data.status && data.status === "error") {
+                        console.warn('Server liefert keine Daten:', data.message);
+                        return; // Keine weiteren Schritte
+                    }
+                    const coordData = data[0]['layCoor'];
+
+                    // Funktion: erstes [x, y] extrahieren
+                    function extractFirstPair(d) {
+                        if (!d) return null;
+                        let parsed = (typeof d === 'string') ? JSON.parse(d) : d;
+
+                        function findCoords(arr) {
+                            if (Array.isArray(arr)) {
+                                if (arr.length === 2 && typeof arr[0] === 'number' && typeof arr[1] === 'number') {
+                                    return arr;
+                                }
+                                for (let item of arr) {
+                                    const result = findCoords(item);
+                                    if (result) return result;
+                                }
+                            }
+                            return null;
+                        }
+                        return findCoords(parsed);
+                    }
+
+                    const extracted_first_pair = extractFirstPair(coordData);
+                    if (!extracted_first_pair) {
+                        console.warn('Keine Koordinaten gefunden.');
+                        return;
+                    }
+                    // console.log('Erstes Koordinatenpaar:', extracted_first_pair);
+                    // Leaflet-Karte fliegen lassen
+                    if (parent.window.parent_map) {
+                        parent.window.parent_map.flyTo(extracted_first_pair, 23, {
+                            animate: true,
+                            duration: 1.75
+                        });
+                    } else {
+                        console.error('Leaflet map im Parent nicht gefunden!');
+                    }
+
+                })
+                .catch(err => console.error('Fetch oder Parsing fehlgeschlagen:', err));
+        });
+
+
+    }
+
     if (create) {
         const th_fg = document.getElementById('F_99901001');
         const colIndex_fg = Array.from(th_fg.parentNode.children).indexOf(th_fg);
@@ -822,63 +958,25 @@ $start = microtime(true);
     //     });
     // }
 
+    if (<?php echo json_encode(isset($_SESSION['rl']['showfcid']) ? 0 : 1) ?>) hide_column('F_fcid');
 
-    const parentWinbox = window.top.findParentWinboxDiv(window);
-    if (parentWinbox && data_info_span) { // Beachte das im Workmode N eingeschaltet sein muss für Navigationsleiste
-        parentWinbox.querySelector('.wb-title').textContent = parentWinbox.querySelector('.wb-title').textContent.split(':')[0] + ':' + data_info_span.textContent;
-        data_info_span.innerHTML = ''; // nur leer wenn in BOX - in eigenem Fenster anzeigen
+    let parentWinboxExist = 0;
+    if (window.top && typeof window.top.findParentWinboxDiv === "function") parentWinboxExist = 1;
+    if (parentWinboxExist) { // wenn nicht im ifranme
+        const parentWinbox = window.top.findParentWinboxDiv(window);
+        if (parentWinbox && data_info_span) { // Beachte das im Workmode N eingeschaltet sein muss für Navigationsleiste
+            parentWinbox.querySelector('.wb-title').textContent = parentWinbox.querySelector('.wb-title').textContent.split(':')[0] + ':' + data_info_span.textContent;
+            data_info_span.innerHTML = ''; // nur leer wenn in BOX - in eigenem Fenster anzeigen
+        }
+
+        // Position für Sitzung speichern 
+        const outer_wb = window.top.findClosestWinboxFromIframe(window.frameElement);
+        window.addEventListener('pagehide', () => {
+            window.top.set_last_winbox_state(num, outer_wb);
+        });
     }
 
-
-
-    // oder so: 
-    // this_winbox = parent.document.getElementById('winbox-' + num);
-
-    // //this_winbox.setUrl(windows.location.pathname, function () {});
-    // try {
-    //     thisbox = document.getElementById(window.top.window_boxes[<? echo json_encode($view ?? "") ?>]['wid']);
-    //     if (thisbox) winbox_num = thisbox.id.split('-')[1];
-    // } catch (error) {}
-
-
-    // var temp_pass = "";
-    // const fg = ;
-
-    // if 
-    //     if (fg == '10020') {
-    //         temp_pass = generateAnyCharCode(2);
-    //     } else if (fg == '10050') {
-    //         temp_pass = generateAnyCharCode(12);
-    //     }
-    // }
-
-
-    // function updatePadding() {
-    //     const dist_nav = document.getElementById('dist_nav');
-    //     if (dist_nav) {
-    //         const th_navbar = document.getElementById('th_navbar');
-    //         if (th_navbar){alert(th_navbar.offsetWidth);
-    //             dist_nav.style.paddingLeft = th_navbar.offsetWidth-600 + 'px'; // window.innerWidth-1330
-    //             dist_nav.style.backgroundColor = 'red';
-    //         }
-    //     }
-    // }
-    // updatePadding();
-
-  
-   
-
-    if (<?php echo json_encode(isset($_SESSION['rl']['Aurelius']) ? 0 : 1) ?>) hide_column('F_fcid');
-
-    // Position für Sitzung speichern 
-    const outer_wb = window.top.findClosestWinboxFromIframe(window.frameElement);
-    window.addEventListener('pagehide', () => {
-        window.top.set_last_winbox_state(num, outer_wb);
-    });
-    // window.onunload = function() {
-    //     window.top.set_last_winbox_state(num, outer_wb);
-    // };
-   
+    if (allow_table_edit) eL_edit_table(miq_php_path, 'forms_' + fg);
 </script>
 
 <?php
@@ -909,67 +1007,7 @@ echo print_r($_SESSION['performance']);
 echo "</pre>";
 echo "</div>";
 
-
-
 echo "</body></html>";
 
 
-
-
-
-// $mod = $_REQUEST['mod'] ?? "";
-// $sort = $_REQUEST['sort'] ?? "";
-// $search = $_REQUEST['where'] ?? "";
-// $remove_add_cols_str = $_REQUEST['rac'] ?? "";
-// // TODO: sqlstr grundsätzlich durch param_str ersetzen
-// // $sqlstr = $_REQUEST['sqlstr'] ?? "";
-// // if ($sqlstr) $sqlstr = str_replace('"', '', urldecode(base64_decode($sqlstr)));
-// // $param_str = $_REQUEST['param_str'] ?? "";
-// // if ($param_str) {
-// //     $param_str_decoded = urldecode(base64_decode($param_str));
-// //     $param_a = json_decode($param_str_decoded, true);
-// //     // echo "<pre>"; echo print_r($param_a); echo "</pre>";
-// //     if (isset($param_a['sqlstr'])) $sqlstr = $param_a['sqlstr'];
-// // }
-// $this_marker = $_REQUEST['this_marker'] ?? "";
-// $fid = $_REQUEST['fid'] ?? "";
-// $work_mode = $_REQUEST['work_mode'] ?? "";
-// $add_allow = $_REQUEST['add_allow'] ?? 0;
-
-// Navigationselemente
-
-
-
-
-# $list_r_a = data_navigation($table_a, $temp_a);
-# $sql = "SELECT * FROM forms_10010 LIMIT $data_def_a['limit'] OFFSET $current_offset";
-
-// $count = q_execute($db, "SELECT COUNT(DISTINCT fcid) AS anzahl_der_fcids FROM ".$data_def_a['table'], PDO::FETCH_COLUMN)[0][0]; 
-// echo "<br>$count Datensätze ingsesammt";
-// $count = q_execute($db, "SELECT COUNT(*) FROM forms_10010 WHERE fid = 102700 AND fcont <> '';", PDO::FETCH_COLUMN)[0][0]; 
-// echo "<br>$count Datensätze mit Gewicht";
-// $count = q_execute($db, "SELECT COUNT(*) FROM ( SELECT fcid FROM forms_10010 WHERE fid IN (102600, 102700) AND fcont <> '' GROUP BY fcid HAVING COUNT(DISTINCT fid) = 2) AS subquery;", PDO::FETCH_COLUMN)[0][0]; 
-// echo "<br>$count Datensätze mit Gewicht und Grösse";
-
-
-# echo "<pre>"; echo print_r($temp_a); echo "</pre>";
-// und mehrer Gruppen id zu denen man gehjören kann und 
-
-// echo "<pre>"; echo print_r($fid_all_a); echo "</pre>";
-
-
-// function q_get_simple($table, $fid, $fcont, $fid_str, $sort_a, $limit_str = ""){  
-//     if (!$fid_str) $fid_in_add = "";
-//     else {
-//         $fid_in_add_f = " AND f.fid IN (" . $fid_str . ")";
-//         $fid_in_add_inner = " AND inner_f.fid IN (" . $fid_str . ")";
-//     }
-//     $quer_str = "SELECT f.* FROM " . $table . " f WHERE 1".$fid_in_add_f." ".$limit_str;
-//     return $quer_str;
-// }
-
-// echo "<script src='" . MIQ_PATH . "js/listings_common.js?RAND='" . random_bytes(5) . "'></script>";
-
-
-# $query_str =  q_get_simple('forms_10010', '', '', $fid_str,'', ' LIMIT 0,15');
 ?>
