@@ -924,8 +924,8 @@ if (isset($_SESSION['css'])) $css = $_SESSION['css'];
                     <div class='col_30'>
                         <div class='desc_f' " . $indent_str . ">$desc_0</div>
                     </div>
-                    <div class='col_30' style='color:gray'>
-                        <span id='isp_FF_$_a[0]'></span>
+                    <div class='col_30' style='height:24px; color:gray;'>
+                        <span id='isp_FF_$_a[0]' ></span>
                     </div>
                     <div class='col_30'>
                         <select $required id='FF_$_a[0]' name='FF_$_a[0]'  onchange='follow_select(this)'>";
@@ -945,7 +945,7 @@ if (isset($_SESSION['css'])) $css = $_SESSION['css'];
                     <div class='col_30'>
                         <div class='desc_f' " . $indent_str . ">$desc_0</div>
                     </div>
-                    <div class='col_30' style='color:gray'>
+                    <div class='col_30' style='height:24px; color:gray;'>
                         <span id='isp_FF_$_a[0]'></span>
                     </div>
                     <div class='col_30'>
